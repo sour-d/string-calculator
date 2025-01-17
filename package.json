@@ -7,7 +7,16 @@
   "author": "sour-d",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
   "dependencies": {
     "jest": "^29.7.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "babel-jest": "^29.7.0"
   }
 }
