@@ -63,8 +63,16 @@ describe("add", () => {
 
   it.each([
     ["//;\n1;2;3", 6],
-    // ["//&\n1&2&12", 15],
+    ["//&\n1&2&12", 15],
   ])("should handle new lines between numbers", (arg, expected) => {
     expect(add(arg)).toBe(expected);
+  });
+
+  it.each([
+    ["-1", "Negatives not allowed: -1"],
+    ["1,2,-2", "Negatives not allowed: -2"],
+    ["0,-5", "Negatives not allowed: -5"],
+  ])("should throw error if negative number is passed", (arg, expected) => {
+    expect(() => add(arg)).toThrow(expected);
   });
 });

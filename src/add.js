@@ -13,9 +13,21 @@ const parseArg = (arg) => {
   return [defaultDelimiter, arg];
 };
 
+const validateNumbers = (numbers) => {
+  const negativeNumbers = numbers.filter((num) => num < 0);
+  if (negativeNumbers.length > 0) {
+    throw new Error(`Negatives not allowed: ${negativeNumbers.join(", ")}`);
+  }
+};
+
 const parseNumbers = (arg, delimiter) => {
   const delimiterAndNewLineRegex = new RegExp(`[${delimiter}\n]`);
-  return arg.split(delimiterAndNewLineRegex).map((num) => parseInt(num));
+  const numbers = arg
+    .split(delimiterAndNewLineRegex)
+    .map((num) => parseInt(num));
+  validateNumbers(numbers);
+
+  return numbers;
 };
 
 const sum = (num1, num2) => num1 + num2;
