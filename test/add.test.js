@@ -2,7 +2,7 @@ import add from "../src/add";
 
 describe("add", () => {
   it("should return 0 if argument is a empty string", () => {
-    expect(add('')).toBe(0);
+    expect(add("")).toBe(0);
   });
 
   it.each(["1", "2", "3"])(
@@ -72,7 +72,18 @@ describe("add", () => {
     ["-1", "Negatives not allowed: -1"],
     ["1,2,-2", "Negatives not allowed: -2"],
     ["0,-5", "Negatives not allowed: -5"],
+    ["0,-5, -10, 4, -1", "Negatives not allowed: -5, -10, -1"],
   ])("should throw error if negative number is passed", (arg, expected) => {
     expect(() => add(arg)).toThrow(expected);
+  });
+
+  it.each([
+    ["1000,2", 2],
+    ["1000,1000,1000", 0],
+    ["1002,1", 3],
+    ["1234,1", 235],
+    ["//;\n1234;1", 235],
+  ])("should ignore numbers greater than 1000", (arg, expected) => {
+    expect(add(arg)).toBe(expected);
   });
 });

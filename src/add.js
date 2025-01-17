@@ -20,11 +20,14 @@ const validateNumbers = (numbers) => {
   }
 };
 
+const convertNumberToLessThanThousand = (number) => number % 1000;
+
 const parseNumbers = (arg, delimiter) => {
   const delimiterAndNewLineRegex = new RegExp(`[${delimiter}\n]`);
   const numbers = arg
     .split(delimiterAndNewLineRegex)
-    .map((num) => parseInt(num));
+    .map((num) => parseInt(num))
+    .map(convertNumberToLessThanThousand);
   validateNumbers(numbers);
 
   return numbers;
