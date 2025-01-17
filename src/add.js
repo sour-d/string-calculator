@@ -48,9 +48,6 @@ const add = (arg) => {
   if (arg === "") {
     return 0;
   }
-  if (arg.match(/^[0-9]*$/)) {
-    return arg;
-  }
 
   const [delimiter, numberStr] = parseArg(arg);
   const numbers = parseNumbers(numberStr, delimiter);

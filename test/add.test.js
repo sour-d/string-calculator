@@ -5,17 +5,25 @@ describe("add", () => {
     expect(add("")).toBe(0);
   });
 
-  it.each(["1", "2", "3"])(
+  it.each([
+    ["1", 1],
+    ["2", 2],
+    ["3", 3],
+  ])(
     "should return the number if the argument is a signle digit number",
-    (arg) => {
-      expect(add(arg)).toBe(arg);
+    (arg, expected) => {
+      expect(add(arg)).toBe(expected);
     }
   );
 
-  it.each(["12", "123", "1234"])(
+  it.each([
+    ["12", 12],
+    ["123", 123],
+    ["1234", 234],
+  ])(
     "should return number if the argument is multiple digit number",
-    (arg) => {
-      expect(add(arg)).toBe(arg);
+    (arg, expected) => {
+      expect(add(arg)).toBe(expected);
     }
   );
 
