@@ -1,0 +1,13 @@
+{
+  "name": "string-calculator",
+  "version": "1.0.0",
+  "description": "string calculator in javascript",
+  "main": "index.js",
+  "repository": "http://github.com/sour-d/string-calculator",
+  "author": "sour-d",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
