@@ -1,15 +1,17 @@
 const parseArgHavingCustomDelimiter = (arg) => {
   // if we have custom delimiter but length is more than 1 eg. //[;;;]
   if (arg.match(/^\/\/\[.*\]/)) {
-    const delimiter = arg.slice(3, arg.indexOf("\n") - 1);
+    const regex = /\[(.*?)\]/g;
+    const delimiters = arg.match(regex).map((match) => match.slice(1, -1));
+    // const delimiter = arg.slice(3, arg.indexOf("\n") - 1);
     const numberStr = arg.slice(arg.indexOf("\n") + 1);
-    return [delimiter, numberStr];
+    return [delimiters, numberStr];
   }
 
   // if we have custom delimiter but length is 1 eg. //;
   const delimiter = arg[2];
   const numberStr = arg.slice(4);
-  return [delimiter, numberStr];
+  return [[delimiter], numberStr];
 };
 
 const parseArg = (arg) => {
@@ -30,8 +32,17 @@ const validateNumbers = (numbers) => {
 
 const convertNumberToLessThanThousand = (number) => number % 1000;
 
-const parseNumbers = (arg, delimiter) => {
-  delimiter = "\\" + delimiter.split("").join("\\");
+const escapeAllCharecters = (str) => "\\" + str.split("").join("\\");
+
+const combineDelimiters = (delimiters) => {
+  if (Array.isArray(delimiters)) {
+    return delimiters.map(escapeAllCharecters).join("|");
+  }
+  return escapeAllCharecters(delimiters);
+};
+
+const parseNumbers = (arg, delimiters) => {
+  const delimiter = combineDelimiters(delimiters);
   const delimiterAndNewLineRegex = new RegExp(`${delimiter}|\n`);
   const numbers = arg
     .split(delimiterAndNewLineRegex)
@@ -46,8 +57,8 @@ const parseNumbers = (arg, delimiter) => {
 const sum = (num1, num2) => num1 + num2;
 
 const add = (arg) => {
-  const [delimiter, numberStr] = parseArg(arg);
-  const numbers = parseNumbers(numberStr, delimiter);
+  const [delimiters, numberStr] = parseArg(arg);
+  const numbers = parseNumbers(numberStr, delimiters);
   return numbers.reduce(sum, 0);
 };
 

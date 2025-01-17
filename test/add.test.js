@@ -101,4 +101,18 @@ describe("add", () => {
   ])(`should handle custom delimiter`, (arg, expected) => {
     expect(add(arg)).toBe(expected);
   });
+
+  it.each([
+    ["//[*][;]\n1*2;3", 6],
+    ["//[*][;][&]\n1*2;3&4", 10],
+  ])(`should handle multiple custom single charecter delimiter`, (arg, expected) => {
+    expect(add(arg)).toBe(expected);
+  });
+
+  it.each([
+    ["//[**][;]\n1**2;3", 6],
+    ["//[*][;;][&&&]\n1*2;;3&&&4", 10],
+  ])(`should handle multiple custom multiple charecter delimiter`, (arg, expected) => {
+    expect(add(arg)).toBe(expected);
+  });
 });
