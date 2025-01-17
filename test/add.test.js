@@ -52,4 +52,12 @@ describe("add", () => {
       expect(add(arg)).toBe(expected);
     }
   );
+
+  it.each([
+    ["1\n2,3", 6],
+    ["1,2\n3", 6],
+    ["1,2\n10", 13],
+  ])("should handle new lines between numbers", (arg, expected) => {
+    expect(add(arg)).toBe(expected);
+  });
 });

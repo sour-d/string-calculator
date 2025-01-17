@@ -6,7 +6,7 @@ const add = (arg) => {
     return arg;
   }
 
-  const numbers = arg.split(",").map((num) => parseInt(num));
+  const numbers = arg.split(/[,\n]/).map((num) => parseInt(num));
   return numbers.reduce((acc, num) => acc + num, 0);
 };
 
