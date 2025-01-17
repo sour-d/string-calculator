@@ -36,7 +36,8 @@ const parseNumbers = (arg, delimiter) => {
   const numbers = arg
     .split(delimiterAndNewLineRegex)
     .map((num) => parseInt(num))
-    .map(convertNumberToLessThanThousand);
+    .map(convertNumberToLessThanThousand)
+    .filter((num) => num);
   validateNumbers(numbers);
 
   return numbers;
@@ -45,10 +46,6 @@ const parseNumbers = (arg, delimiter) => {
 const sum = (num1, num2) => num1 + num2;
 
 const add = (arg) => {
-  if (arg === "") {
-    return 0;
-  }
-
   const [delimiter, numberStr] = parseArg(arg);
   const numbers = parseNumbers(numberStr, delimiter);
   return numbers.reduce(sum, 0);
