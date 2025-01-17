@@ -60,4 +60,11 @@ describe("add", () => {
   ])("should handle new lines between numbers", (arg, expected) => {
     expect(add(arg)).toBe(expected);
   });
+
+  it.each([
+    ["//;\n1;2;3", 6],
+    // ["//&\n1&2&12", 15],
+  ])("should handle new lines between numbers", (arg, expected) => {
+    expect(add(arg)).toBe(expected);
+  });
 });
