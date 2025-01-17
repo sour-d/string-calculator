@@ -40,4 +40,16 @@ describe("add", () => {
       expect(add(arg)).toBe(expected);
     }
   );
+
+  it.each([
+    ["1,2,3", 6],
+    ["3,4,5,0,10,30", 52],
+    ["5,3,2,1,4,5,6,7,8,9,10", 60],
+    ["0,0,0", 0],
+  ])(
+    "should return the sum of numbers if 3 numbers are is comma separated",
+    (arg, expected) => {
+      expect(add(arg)).toBe(expected);
+    }
+  );
 });

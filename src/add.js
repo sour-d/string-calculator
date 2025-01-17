@@ -6,8 +6,8 @@ const add = (arg) => {
     return arg;
   }
 
-  const [num1, num2] = arg.split(",").map((num) => parseInt(num));
-  return num1 + num2;
+  const numbers = arg.split(",").map((num) => parseInt(num));
+  return numbers.reduce((acc, num) => acc + num, 0);
 };
 
 export default add;
