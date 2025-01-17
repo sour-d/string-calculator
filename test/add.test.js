@@ -86,4 +86,11 @@ describe("add", () => {
   ])("should ignore numbers greater than 1000", (arg, expected) => {
     expect(add(arg)).toBe(expected);
   });
+
+  it.each([
+    ["//[;;;]\n1;;;2;;;3", 6],
+    ["//[***]\n5***2***3", 10],
+  ])(`should handle custom delimiter`, (arg, expected) => {
+    expect(add(arg)).toBe(expected);
+  });
 });

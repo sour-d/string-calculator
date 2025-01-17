@@ -1,4 +1,12 @@
-const parseArgWithCustomDelimiter = (arg) => {
+const parseArgHavingCustomDelimiter = (arg) => {
+  // if we have custom delimiter but length is more than 1 eg. //[;;;]
+  if (arg.match(/^\/\/\[.*\]/)) {
+    const delimiter = arg.slice(3, arg.indexOf("\n") - 1);
+    const numberStr = arg.slice(arg.indexOf("\n") + 1);
+    return [delimiter, numberStr];
+  }
+
+  // if we have custom delimiter but length is 1 eg. //;
   const delimiter = arg[2];
   const numberStr = arg.slice(4);
   return [delimiter, numberStr];
@@ -6,7 +14,7 @@ const parseArgWithCustomDelimiter = (arg) => {
 
 const parseArg = (arg) => {
   if (arg.startsWith("//")) {
-    return parseArgWithCustomDelimiter(arg);
+    return parseArgHavingCustomDelimiter(arg);
   }
 
   const defaultDelimiter = ",";
@@ -23,7 +31,8 @@ const validateNumbers = (numbers) => {
 const convertNumberToLessThanThousand = (number) => number % 1000;
 
 const parseNumbers = (arg, delimiter) => {
-  const delimiterAndNewLineRegex = new RegExp(`[${delimiter}\n]`);
+  delimiter = "\\" + delimiter.split("").join("\\");
+  const delimiterAndNewLineRegex = new RegExp(`${delimiter}|\n`);
   const numbers = arg
     .split(delimiterAndNewLineRegex)
     .map((num) => parseInt(num))
