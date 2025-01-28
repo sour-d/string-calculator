@@ -55,11 +55,16 @@ const parseNumbers = (arg, delimiters) => {
 };
 
 const sum = (num1, num2) => num1 + num2;
+const multiply = (num1, num2) => num1 * num2;
 
-const add = (arg) => {
+const calculateStringExpression = (arg) => {
   const [delimiters, numberStr] = parseArg(arg);
   const numbers = parseNumbers(numberStr, delimiters);
+
+  if (delimiters[0] === "*" && delimiters.length === 1) {
+    return numbers.reduce(multiply, 1);
+  }
   return numbers.reduce(sum, 0);
 };
 
-export default add;
+export default calculateStringExpression;

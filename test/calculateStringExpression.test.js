@@ -1,8 +1,8 @@
-import add from "../src/add";
+import calculateStringExpression from "../src/calculateStringExpression";
 
-describe("add", () => {
+describe("calculateStringExpression", () => {
   it("should return 0 if argument is a empty string", () => {
-    expect(add("")).toBe(0);
+    expect(calculateStringExpression("")).toBe(0);
   });
 
   it.each([
@@ -12,7 +12,7 @@ describe("add", () => {
   ])(
     "should return the number if the argument is a signle digit number",
     (arg, expected) => {
-      expect(add(arg)).toBe(expected);
+      expect(calculateStringExpression(arg)).toBe(expected);
     }
   );
 
@@ -23,7 +23,7 @@ describe("add", () => {
   ])(
     "should return number if the argument is multiple digit number",
     (arg, expected) => {
-      expect(add(arg)).toBe(expected);
+      expect(calculateStringExpression(arg)).toBe(expected);
     }
   );
 
@@ -34,7 +34,7 @@ describe("add", () => {
   ])(
     "should return the sum of numbers if 2 numbers are is comma separated",
     (arg, expected) => {
-      expect(add(arg)).toBe(expected);
+      expect(calculateStringExpression(arg)).toBe(expected);
     }
   );
 
@@ -45,7 +45,7 @@ describe("add", () => {
   ])(
     "should return the sum of numbers of 2 numbers having multiple digits and comma separated",
     (arg, expected) => {
-      expect(add(arg)).toBe(expected);
+      expect(calculateStringExpression(arg)).toBe(expected);
     }
   );
 
@@ -57,7 +57,7 @@ describe("add", () => {
   ])(
     "should return the sum of numbers if 3 numbers are is comma separated",
     (arg, expected) => {
-      expect(add(arg)).toBe(expected);
+      expect(calculateStringExpression(arg)).toBe(expected);
     }
   );
 
@@ -66,14 +66,14 @@ describe("add", () => {
     ["1,2\n3", 6],
     ["1,2\n10", 13],
   ])("should handle new lines between numbers", (arg, expected) => {
-    expect(add(arg)).toBe(expected);
+    expect(calculateStringExpression(arg)).toBe(expected);
   });
 
   it.each([
     ["//;\n1;2;3", 6],
     ["//&\n1&2&12", 15],
   ])("should handle new lines between numbers", (arg, expected) => {
-    expect(add(arg)).toBe(expected);
+    expect(calculateStringExpression(arg)).toBe(expected);
   });
 
   it.each([
@@ -82,7 +82,7 @@ describe("add", () => {
     ["0,-5", "Negatives not allowed: -5"],
     ["0,-5, -10, 4, -1", "Negatives not allowed: -5, -10, -1"],
   ])("should throw error if negative number is passed", (arg, expected) => {
-    expect(() => add(arg)).toThrow(expected);
+    expect(() => calculateStringExpression(arg)).toThrow(expected);
   });
 
   it.each([
@@ -92,27 +92,45 @@ describe("add", () => {
     ["1234,1", 235],
     ["//;\n1234;1", 235],
   ])("should ignore numbers greater than 1000", (arg, expected) => {
-    expect(add(arg)).toBe(expected);
+    expect(calculateStringExpression(arg)).toBe(expected);
   });
 
   it.each([
     ["//[;;;]\n1;;;2;;;3", 6],
     ["//[***]\n5***2***3", 10],
   ])(`should handle custom delimiter`, (arg, expected) => {
-    expect(add(arg)).toBe(expected);
+    expect(calculateStringExpression(arg)).toBe(expected);
   });
 
   it.each([
     ["//[*][;]\n1*2;3", 6],
     ["//[*][;][&]\n1*2;3&4", 10],
-  ])(`should handle multiple custom single charecter delimiter`, (arg, expected) => {
-    expect(add(arg)).toBe(expected);
-  });
+  ])(
+    `should handle multiple custom single charecter delimiter`,
+    (arg, expected) => {
+      expect(calculateStringExpression(arg)).toBe(expected);
+    }
+  );
 
   it.each([
     ["//[**][;]\n1**2;3", 6],
     ["//[*][;;][&&&]\n1*2;;3&&&4", 10],
-  ])(`should handle multiple custom multiple charecter delimiter`, (arg, expected) => {
-    expect(add(arg)).toBe(expected);
-  });
+  ])(
+    `should handle multiple custom multiple charecter delimiter`,
+    (arg, expected) => {
+      expect(calculateStringExpression(arg)).toBe(expected);
+    }
+  );
+
+  it.each([
+    ["//*\n2*3", 6],
+    ["//*\n5*6*7", 210],
+  ])(
+    "should multiply when user pass * as delimieter",
+    (arg, expectedResult) => {
+      const actual = calculateStringExpression(arg);
+
+      expect(actual).toBe(expectedResult);
+    }
+  );
 });
