@@ -1,6 +1,21 @@
-import calculateStringExpression from "../src/calculateStringExpression";
+import {
+  calculateStringExpression,
+  getAllNegativeArguments,
+} from "../src/calculateStringExpression";
+
+import fs from "fs";
+
+const FILE_NAME = "negetiveArgumentsTest.txt";
 
 describe("calculateStringExpression", () => {
+  beforeEach(() => {
+    process.env.FILE_NAME = FILE_NAME;
+  });
+
+  afterEach(() => {
+    fs.unlinkSync(FILE_NAME);
+  });
+
   it("should return 0 if argument is a empty string", () => {
     expect(calculateStringExpression("")).toBe(0);
   });
@@ -133,4 +148,14 @@ describe("calculateStringExpression", () => {
       expect(actual).toBe(expectedResult);
     }
   );
+
+  it("should return all the arguments which had negatives numbers", () => {
+    try {
+      calculateStringExpression("//*\n-2*3");
+    } catch (_) {}
+
+    const actual = getAllNegativeArguments();
+
+    expect(actual).toBe("//*\n-2*3");
+  });
 });

@@ -1,3 +1,5 @@
+import fs from "fs";
+
 const parseArgHavingCustomDelimiter = (arg) => {
   // if we have custom delimiter but length is more than 1 eg. //[;;;]
   if (arg.match(/^\/\/\[.*\]/)) {
@@ -57,9 +59,24 @@ const parseNumbers = (arg, delimiters) => {
 const sum = (num1, num2) => num1 + num2;
 const multiply = (num1, num2) => num1 * num2;
 
+const getAllNegativeArguments = () => {
+  const fileName = process.env.FILE_NAME;
+  return fs.readFileSync(fileName, { encoding: "utf-8" });
+};
+const storeNegativeArgument = (arg) => {
+  const fileName = process.env.FILE_NAME;
+  fs.writeFileSync(fileName, arg, { flag: "a" });
+};
+
 const calculateStringExpression = (arg) => {
   const [delimiters, numberStr] = parseArg(arg);
-  const numbers = parseNumbers(numberStr, delimiters);
+  let numbers;
+  try {
+    numbers = parseNumbers(numberStr, delimiters);
+  } catch (e) {
+    storeNegativeArgument(arg);
+    throw e;
+  }
 
   if (delimiters[0] === "*" && delimiters.length === 1) {
     return numbers.reduce(multiply, 1);
@@ -67,4 +84,5 @@ const calculateStringExpression = (arg) => {
   return numbers.reduce(sum, 0);
 };
 
-export default calculateStringExpression;
+// export default calculateStringExpression;
+export { calculateStringExpression, getAllNegativeArguments };
